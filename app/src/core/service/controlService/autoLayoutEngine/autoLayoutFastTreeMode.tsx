@@ -580,7 +580,7 @@ export class AutoLayoutFastTree {
     // 选中根节点
     this.project.stageManager.clearSelectAll();
     rootNode.isSelected = true;
-    this.project.entityMoveManager.moveConnectableEntitiesWithChildren(delta);
+    this.project.entityMoveManager.moveEntitiesWithChildren(delta);
     // ------- 恢复完毕
   }
 

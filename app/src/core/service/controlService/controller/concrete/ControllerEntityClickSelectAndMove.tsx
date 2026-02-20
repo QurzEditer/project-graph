@@ -121,17 +121,18 @@ export class ControllerEntityClickSelectAndMoveClass extends ControllerClass {
         ? this.project.controller.pressingKeySet.has("meta")
         : this.project.controller.pressingKeySet.has("control");
 
+      // 根据模式选择移动方式
       if (Settings.reverseTreeMoveMode) {
         // 反转模式：默认树形移动，按住Ctrl键单一移动
         if (isControlPressed) {
           this.project.entityMoveManager.moveSelectedEntities(diffLocation);
         } else {
-          this.project.entityMoveManager.moveConnectableEntitiesWithChildren(diffLocation);
+          this.project.entityMoveManager.moveEntitiesWithChildren(diffLocation);
         }
       } else {
         // 正常模式：默认单一移动，按住Ctrl键树形移动
         if (isControlPressed) {
-          this.project.entityMoveManager.moveConnectableEntitiesWithChildren(diffLocation);
+          this.project.entityMoveManager.moveEntitiesWithChildren(diffLocation);
         } else {
           this.project.entityMoveManager.moveSelectedEntities(diffLocation);
         }

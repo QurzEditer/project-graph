@@ -123,13 +123,17 @@ export class EntityMoveManager {
   }
 
   /**
-   * 树型移动 所有选中的可连接实体
+   * 树型移动 所有选中的实体
    * @param delta
    */
-  moveConnectableEntitiesWithChildren(delta: Vector) {
-    for (const node of this.project.stageManager.getConnectableEntity()) {
+  moveEntitiesWithChildren(delta: Vector) {
+    for (const node of this.project.stageManager.getEntities()) {
       if (node.isSelected) {
-        this.moveWithChildren(node, delta);
+        if (node instanceof ConnectableEntity) {
+          this.moveWithChildren(node, delta);
+        } else {
+          this.moveEntityUtils(node, delta);
+        }
       }
     }
   }

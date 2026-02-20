@@ -58,6 +58,53 @@ export namespace SoundService {
     export function mouseClickSwitchButtonOff() {
       loadAndPlaySound(Settings.uiSwitchButtonOffSoundFile);
     }
+
+    /** ctrl + G 打包 */
+    export function packEntityToSectionSoundFile() {
+      loadAndPlaySound(Settings.packEntityToSectionSoundFile);
+    }
+
+    /**
+     * tab 生成树结构
+     */
+    export function treeGenerateDeepSoundFile() {
+      loadAndPlaySound(Settings.treeGenerateDeepSoundFile);
+    }
+
+    /**
+     * enter 广度生长
+     */
+    export function treeGenerateBroadSoundFile() {
+      loadAndPlaySound(Settings.treeGenerateBroadSoundFile);
+    }
+
+    /**
+     * 格式化树形结构
+     */
+    export function treeAdjustSoundFile() {
+      loadAndPlaySound(Settings.treeAdjustSoundFile);
+    }
+
+    /**
+     * 视图调整
+     */
+    export function viewAdjustSoundFile() {
+      loadAndPlaySound(Settings.viewAdjustSoundFile);
+    }
+
+    /**
+     * 物体跳跃
+     */
+    export function entityJumpSoundFile() {
+      loadAndPlaySound(Settings.entityJumpSoundFile);
+    }
+
+    /**
+     * 连线、无向边等东西的调整
+     */
+    export function associationAdjustSoundFile() {
+      loadAndPlaySound(Settings.associationAdjustSoundFile);
+    }
   }
 
   const audioContext = new window.AudioContext();

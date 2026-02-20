@@ -800,6 +800,34 @@ settings:
     title: Suara Tutup Tombol Alihkan
     description: |
       Path file suara yang diputar saat tombol alihkan ditutup
+  packEntityToSectionSoundFile:
+    title: Suara untuk Mengemas ke Section
+    description: |
+      Path file suara yang diputar saat mengemas entitas yang dipilih ke dalam kotak Section
+  treeGenerateDeepSoundFile:
+    title: Suara untuk Generasi Pohon Dalam
+    description: |
+      Path file suara yang diputar saat menggunakan tombol Tab untuk generasi pohon dalam
+  treeGenerateBroadSoundFile:
+    title: Suara untuk Generasi Pohon Lebar
+    description: |
+      Path file suara yang diputar saat menggunakan tombol Enter untuk generasi pohon lebar
+  treeAdjustSoundFile:
+    title: Suara untuk Penyesuaian Struktur Pohon
+    description: |
+      Path file suara yang diputar saat memformat struktur pohon
+  viewAdjustSoundFile:
+    title: Suara untuk Penyesuaian Tampilan
+    description: |
+      Path file suara yang diputar saat menyesuaikan tampilan
+  entityJumpSoundFile:
+    title: Suara untuk Lompatan Entitas
+    description: |
+      Path file suara yang diputar saat entitas melompat
+  associationAdjustSoundFile:
+    title: Suara untuk Penyesuaian Asosiasi
+    description: |
+      Path file suara yang diputar saat menyesuaikan koneksi, tepi tak terarah, dll.
   agreeTerms:
     title: Setujui Perjanjian Pengguna
     description: |

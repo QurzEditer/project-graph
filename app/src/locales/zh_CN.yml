@@ -800,6 +800,34 @@ settings:
     title: 按钮点击开关按钮时关闭的声音
     description: |
       按钮点击开关按钮时关闭的声音文件路径
+  packEntityToSectionSoundFile:
+    title: 打包为框的声音文件
+    description: |
+      将选中的实体打包到Section框中时播放的声音文件路径
+  treeGenerateDeepSoundFile:
+    title: 树形深度生长的声音文件
+    description: |
+      使用Tab键进行树形深度生长时播放的声音文件路径
+  treeGenerateBroadSoundFile:
+    title: 树形广度生长的声音文件
+    description: |
+      使用Enter键进行树形广度生长时播放的声音文件路径
+  treeAdjustSoundFile:
+    title: 树形结构调整的声音文件
+    description: |
+      格式化树形结构时播放的声音文件路径
+  viewAdjustSoundFile:
+    title: 视图调整的声音文件
+    description: |
+      调整视图时播放的声音文件路径
+  entityJumpSoundFile:
+    title: 物体跳跃的声音文件
+    description: |
+      物体跳跃移动时播放的声音文件路径
+  associationAdjustSoundFile:
+    title: 连线调整的声音文件
+    description: |
+      调整连线、无向边等关联元素时播放的声音文件路径
   agreeTerms:
     title: 同意用户协议
     description: |

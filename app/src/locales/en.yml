@@ -632,6 +632,34 @@ settings:
     title: Sound File for Switching Button Off
     description: |
       The path to the sound file played when a switch button is turned off
+  packEntityToSectionSoundFile:
+    title: Sound File for Packing to Section
+    description: |
+      The path to the sound file played when packing selected entities into a Section box
+  treeGenerateDeepSoundFile:
+    title: Sound File for Tree Deep Generation
+    description: |
+      The path to the sound file played when using Tab key for tree deep generation
+  treeGenerateBroadSoundFile:
+    title: Sound File for Tree Broad Generation
+    description: |
+      The path to the sound file played when using Enter key for tree broad generation
+  treeAdjustSoundFile:
+    title: Sound File for Tree Structure Adjustment
+    description: |
+      The path to the sound file played when formatting tree structure
+  viewAdjustSoundFile:
+    title: Sound File for View Adjustment
+    description: |
+      The path to the sound file played when adjusting view
+  entityJumpSoundFile:
+    title: Sound File for Entity Jump
+    description: |
+      The path to the sound file played when entity jumps
+  associationAdjustSoundFile:
+    title: Sound File for Association Adjustment
+    description: |
+      The path to the sound file played when adjusting connections, undirected edges, etc.
   windowCollapsingWidth:
     title: Width of Mini Window
     description: "When switches to Mini Window, The width of window in pixel\n"

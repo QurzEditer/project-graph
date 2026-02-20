@@ -1,16 +1,16 @@
+import { SettingField } from "@/components/ui/field";
 import FileChooser from "@/components/ui/file-chooser";
 import { Popover } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
+import { AssetsRepository } from "@/core/service/AssetsRepository";
 import { Settings } from "@/core/service/Settings";
 import { SoundService } from "@/core/service/feedbackService/SoundService";
-import { AssetsRepository } from "@/core/service/AssetsRepository";
+import { appLocalDataDir, join } from "@tauri-apps/api/path";
+import { writeFile } from "@tauri-apps/plugin-fs";
 import { open } from "@tauri-apps/plugin-shell";
-import { ExternalLink, Volume2, VolumeX, Download } from "lucide-react";
+import { Download, ExternalLink, Volume2, VolumeX } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { join, appLocalDataDir } from "@tauri-apps/api/path";
-import { writeFile } from "@tauri-apps/plugin-fs";
-import { SettingField } from "@/components/ui/field";
 
 // 音效配置列表
 const SOUND_CONFIGS = [
@@ -67,6 +67,48 @@ const SOUND_CONFIGS = [
     name: "开关关闭",
     testFunction: SoundService.play.mouseClickSwitchButtonOff,
     fileName: "uiSwitchButtonOff.mp3",
+  },
+  {
+    settingKey: "packEntityToSectionSoundFile",
+    name: "打包为框",
+    testFunction: SoundService.play.packEntityToSectionSoundFile,
+    fileName: "packEntityToSection.mp3",
+  },
+  {
+    settingKey: "treeGenerateDeepSoundFile",
+    name: "树形深度生长",
+    testFunction: SoundService.play.treeGenerateDeepSoundFile,
+    fileName: "treeGenerateDeep.mp3",
+  },
+  {
+    settingKey: "treeGenerateBroadSoundFile",
+    name: "树形广度生长",
+    testFunction: SoundService.play.treeGenerateBroadSoundFile,
+    fileName: "treeGenerateBroad.mp3",
+  },
+  {
+    settingKey: "treeAdjustSoundFile",
+    name: "树形结构调整",
+    testFunction: SoundService.play.treeAdjustSoundFile,
+    fileName: "treeAdjust.mp3",
+  },
+  {
+    settingKey: "viewAdjustSoundFile",
+    name: "视图调整",
+    testFunction: SoundService.play.viewAdjustSoundFile,
+    fileName: "viewAdjust.mp3",
+  },
+  {
+    settingKey: "entityJumpSoundFile",
+    name: "物体跳跃",
+    testFunction: SoundService.play.entityJumpSoundFile,
+    fileName: "entityJump.mp3",
+  },
+  {
+    settingKey: "associationAdjustSoundFile",
+    name: "连线调整",
+    testFunction: SoundService.play.associationAdjustSoundFile,
+    fileName: "associationAdjust.mp3",
   },
 ];
 

@@ -1,15 +1,16 @@
 import { Project, service } from "@/core/Project";
 import { ConnectableEntity } from "@/core/stage/stageObject/abstract/ConnectableEntity";
-import { CollisionBox } from "@/core/stage/stageObject/collisionBox/collisionBox";
 import { Edge } from "@/core/stage/stageObject/association/Edge";
+import { CollisionBox } from "@/core/stage/stageObject/collisionBox/collisionBox";
 import { TextNode } from "@/core/stage/stageObject/entity/TextNode";
 import { Direction } from "@/types/directions";
 import { ProgressNumber, Vector } from "@graphif/data-structures";
 import { Rectangle } from "@graphif/shapes";
 import { v4 } from "uuid";
-import { Settings } from "../../Settings";
 import { LineEffect } from "../../feedbackService/effectEngine/concrete/LineEffect";
 import { RectangleRenderEffect } from "../../feedbackService/effectEngine/concrete/RectangleRenderEffect";
+import { SoundService } from "../../feedbackService/SoundService";
+import { Settings } from "../../Settings";
 
 /**
  * 专用于Xmind式的树形结构的键盘操作引擎
@@ -231,6 +232,7 @@ export class KeyboardOnlyTreeEngine {
 
     // 特效
     this.project.effects.addEffects(this.project.edgeRenderer.getConnectedEffects(rootNode, newNode));
+    SoundService.play.treeGenerateDeepSoundFile();
     setTimeout(
       () => {
         // 防止把反引号给输入进去
@@ -358,6 +360,7 @@ export class KeyboardOnlyTreeEngine {
       }
     }
     this.project.effects.addEffects(this.project.edgeRenderer.getConnectedEffects(parent, newNode));
+    SoundService.play.treeGenerateBroadSoundFile();
     setTimeout(
       () => {
         // 防止把反引号给输入进去
@@ -397,6 +400,7 @@ export class KeyboardOnlyTreeEngine {
     const rootNodeParents = this.project.graphMethods.getRoots(entity);
     const rootNode = rootNodeParents[0];
     this.project.autoAlign.autoLayoutSelectedFastTreeMode(rootNode);
+    SoundService.play.treeAdjustSoundFile();
 
     // 添加闪烁特效：树形结构的外接矩形和根节点
     const allNodes = this.project.graphMethods.getSuccessorSet(rootNode, true);

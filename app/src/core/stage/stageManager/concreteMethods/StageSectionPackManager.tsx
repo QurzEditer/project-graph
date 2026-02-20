@@ -13,6 +13,7 @@ import { v4 } from "uuid";
 import { Vector } from "@graphif/data-structures";
 import { Rectangle } from "@graphif/shapes";
 import { ConnectableEntity } from "../../stageObject/abstract/ConnectableEntity";
+import { SoundService } from "@/core/service/feedbackService/SoundService";
 
 /**
  * 管理所有东西进出StageSection的逻辑
@@ -393,6 +394,7 @@ export class SectionPackManager {
     const selectedEntities = this.project.stageManager.getEntities().filter((entity) => entity.isSelected);
     if (selectedEntities.length > 0) {
       this.packEntityToSection(selectedEntities);
+      SoundService.play.packEntityToSectionSoundFile();
     }
   }
 

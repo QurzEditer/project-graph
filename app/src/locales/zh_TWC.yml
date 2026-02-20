@@ -821,6 +821,27 @@ settings:
   uiSwitchButtonOffSoundFile:
     title: 按鈕點擊開關按鈕時關閉的聲音
     description: 按鈕點擊開關按鈕時關閉的聲音檔案路徑
+  packEntityToSectionSoundFile:
+    title: 打包成框的聲音檔
+    description: 把選中的東西打包到Section框裡時播放的聲音檔路徑
+  treeGenerateDeepSoundFile:
+    title: 樹狀深度生長的聲音檔
+    description: 用Tab鍵做樹狀深度生長時播放的聲音檔路徑
+  treeGenerateBroadSoundFile:
+    title: 樹狀廣度生長的聲音檔
+    description: 用Enter鍵做樹狀廣度生長時播放的聲音檔路徑
+  treeAdjustSoundFile:
+    title: 樹狀結構調整的聲音檔
+    description: 格式化樹狀結構時播放的聲音檔路徑
+  viewAdjustSoundFile:
+    title: 視角調整的聲音檔
+    description: 調整視角時播放的聲音檔路徑
+  entityJumpSoundFile:
+    title: 物體跳躍的聲音檔
+    description: 物體跳躍移動時播放的聲音檔路徑
+  associationAdjustSoundFile:
+    title: 連線調整的聲音檔
+    description: 調整連線、無向邊這些東西時播放的聲音檔路徑
   agreeTerms:
     title: 同意用户协议
     description: '请您仔细阅读并同意用户协议

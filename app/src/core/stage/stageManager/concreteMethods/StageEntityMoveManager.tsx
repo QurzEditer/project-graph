@@ -1,6 +1,7 @@
 import { Project, service } from "@/core/Project";
 import { EntityJumpMoveEffect } from "@/core/service/feedbackService/effectEngine/concrete/EntityJumpMoveEffect";
 import { RectanglePushInEffect } from "@/core/service/feedbackService/effectEngine/concrete/RectanglePushInEffect";
+import { SoundService } from "@/core/service/feedbackService/SoundService";
 import { ConnectableEntity } from "@/core/stage/stageObject/abstract/ConnectableEntity";
 import { Entity } from "@/core/stage/stageObject/abstract/StageEntity";
 import { Vector } from "@graphif/data-structures";
@@ -59,7 +60,7 @@ export class EntityMoveManager {
     }
 
     const beforeMoveRect = entity.collisionBox.getRectangle().clone();
-
+    console.log("JUMP MOVE");
     // 将自己移动前加特效
     this.project.effects.addEffect(new EntityJumpMoveEffect(15, beforeMoveRect, delta));
 
@@ -84,6 +85,7 @@ export class EntityMoveManager {
         this.project.effects.addEffect(
           new RectanglePushInEffect(entity.collisionBox.getRectangle(), section.collisionBox.getRectangle()),
         );
+        SoundService.play.entityJumpSoundFile();
       }
     }
 

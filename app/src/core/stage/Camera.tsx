@@ -3,6 +3,7 @@ import { NumberFunctions } from "@/core/algorithm/numberFunctions";
 import { Project, service } from "@/core/Project";
 import { easeOutExpo } from "@/core/service/feedbackService/effectEngine/mathTools/easings";
 import { Settings } from "@/core/service/Settings";
+import { SoundService } from "../service/feedbackService/SoundService";
 import { Entity } from "@/core/stage/stageObject/abstract/StageEntity";
 import { Direction } from "@/types/directions";
 import { isMac } from "@/utils/platform";
@@ -329,6 +330,7 @@ export class Camera {
       Math.min(this.project.renderer.h / allEntitiesSize.y, this.project.renderer.w / allEntitiesSize.x),
     );
     this.targetScale = this.currentScale;
+    SoundService.play.viewAdjustSoundFile();
   }
 
   resetBySelected() {
@@ -339,6 +341,7 @@ export class Camera {
     }
     const viewRectangle = Rectangle.getBoundingRectangle(selectedEntity.map((e) => e.collisionBox.getRectangle()));
     this.resetByRectangle(viewRectangle);
+    SoundService.play.viewAdjustSoundFile();
   }
 
   resetByRectangle(viewRectangle: Rectangle) {

@@ -2,6 +2,7 @@ import { ControllerClass } from "@/core/service/controlService/controller/Contro
 import { EntityJumpMoveEffect } from "@/core/service/feedbackService/effectEngine/concrete/EntityJumpMoveEffect";
 import { EntityShakeEffect } from "@/core/service/feedbackService/effectEngine/concrete/EntityShakeEffect";
 import { RectanglePushInEffect } from "@/core/service/feedbackService/effectEngine/concrete/RectanglePushInEffect";
+import { SoundService } from "@/core/service/feedbackService/SoundService";
 import { Settings } from "@/core/service/Settings";
 import { Section } from "@/core/stage/stageObject/entity/Section";
 import { TextNode } from "@/core/stage/stageObject/entity/TextNode";
@@ -176,5 +177,7 @@ export class ControllerLayerMovingClass extends ControllerClass {
 
     // 3 移动所有选中的实体 的位置
     this.project.entityMoveManager.moveSelectedEntities(delta);
+    // 播放跳跃音效
+    SoundService.play.entityJumpSoundFile();
   };
 }

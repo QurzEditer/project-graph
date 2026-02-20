@@ -1,6 +1,7 @@
 import { Project, service } from "@/core/Project";
 import { EntityShrinkEffect } from "@/core/service/feedbackService/effectEngine/concrete/EntityShrinkEffect";
 import { PenStrokeDeletedEffect } from "@/core/service/feedbackService/effectEngine/concrete/PenStrokeDeletedEffect";
+import { SoundService } from "@/core/service/feedbackService/SoundService";
 import { Settings } from "@/core/service/Settings";
 import { Association } from "@/core/stage/stageObject/abstract/Association";
 import { ConnectableEntity } from "@/core/stage/stageObject/abstract/ConnectableEntity";
@@ -745,6 +746,8 @@ export class StageManager {
         edge.targetRectangleRate = newLocationRate;
       }
     }
+    // 播放连线调整音效
+    SoundService.play.associationAdjustSoundFile();
   }
 
   switchLineEdgeToCrEdge() {

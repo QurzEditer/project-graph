@@ -448,18 +448,39 @@ export class StageManager {
    */
   deleteSelectedStageObjects() {
     const selectedEntities = this.getEntities().filter((node) => node.isSelected);
-    for (const entity of selectedEntities) {
+
+    // 检查选中的实体是否在锁定的 section 内，或者实体本身是否是锁定的 section
+    const filteredEntities = selectedEntities.filter((entity) => {
+      const fatherSections = this.project.sectionMethods.getFatherSections(entity);
+      return !fatherSections.some((section) => section.locked) && !(entity instanceof Section && entity.locked);
+    });
+
+    for (const entity of filteredEntities) {
       if (entity instanceof PenStroke) {
         this.project.effects.addEffect(PenStrokeDeletedEffect.fromPenStroke(entity));
       } else {
         this.project.effects.addEffect(EntityShrinkEffect.fromEntity(entity));
       }
     }
-    this.deleteEntities(selectedEntities);
+    this.deleteEntities(filteredEntities);
 
     // 处理所有类型的边，包括普通边和多目标无向边
     for (const association of this.getAssociations()) {
       if (association.isSelected) {
+        // 检查边的源和目标是否在隐藏的 section 内
+        if (association instanceof Edge) {
+          const sourceFatherSections = this.project.sectionMethods.getFatherSections(association.source);
+          const targetFatherSections = this.project.sectionMethods.getFatherSections(association.target);
+
+          const hasLockedSection =
+            sourceFatherSections.some((section) => section.locked) ||
+            targetFatherSections.some((section) => section.locked);
+
+          if (hasLockedSection) {
+            continue;
+          }
+        }
+
         this.deleteAssociation(association);
         if (association instanceof Edge) {
           this.project.effects.addEffects(this.project.edgeRenderer.getCuttingEffects(association));

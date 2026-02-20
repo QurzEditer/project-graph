@@ -2,6 +2,7 @@ import { ControllerClass } from "@/core/service/controlService/controller/Contro
 import { RectangleNoteEffect } from "@/core/service/feedbackService/effectEngine/concrete/RectangleNoteEffect";
 import { RectangleRenderEffect } from "@/core/service/feedbackService/effectEngine/concrete/RectangleRenderEffect";
 import { Settings } from "@/core/service/Settings";
+import { Entity } from "@/core/stage/stageObject/abstract/StageEntity";
 import { isMac } from "@/utils/platform";
 import { Vector } from "@graphif/data-structures";
 import { Rectangle } from "@graphif/shapes";
@@ -35,6 +36,14 @@ export class ControllerEntityClickSelectAndMoveClass extends ControllerClass {
     }
 
     const clickedStageObject = this.project.controllerUtils.getClickedStageObject(pressWorldLocation);
+
+    // 检查点击的物体是否在锁定的 section 内
+    if (clickedStageObject && clickedStageObject instanceof Entity) {
+      const fatherSections = this.project.sectionMethods.getFatherSections(clickedStageObject);
+      if (fatherSections.some((section) => section.locked)) {
+        return;
+      }
+    }
 
     // 防止跳跃式移动的时候改变选中内容
     if (this.project.controller.pressingKeySet.has("alt")) {

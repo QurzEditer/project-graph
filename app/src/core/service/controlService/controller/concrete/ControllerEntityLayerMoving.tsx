@@ -86,6 +86,22 @@ export class ControllerLayerMovingClass extends ControllerClass {
     const targetSections = this.project.sectionMethods.getSectionsByInnerLocation(mouseLocation);
     const selectedEntities = this.project.stageManager.getSelectedEntities();
 
+    // 检查目标 sections 是否有锁定的
+    const hasLockedTargetSection = targetSections.some((section) => section.locked);
+    if (hasLockedTargetSection) {
+      toast.error("不能跳入已锁定的 Section");
+      return;
+    }
+
+    // 检查选中的实体是否在锁定的 section 内
+    for (const selectedEntity of selectedEntities) {
+      const fatherSections = this.project.sectionMethods.getFatherSections(selectedEntity);
+      if (fatherSections.some((section) => section.locked)) {
+        toast.error("不能移动已锁定的 Section 中的物体");
+        return;
+      }
+    }
+
     // 防止无限循环嵌套：当跳入的实体是选中的所有内容当中任意一个Section的内部时，禁止触发该操作
     for (const selectedEntity of selectedEntities) {
       if (selectedEntity instanceof Section) {

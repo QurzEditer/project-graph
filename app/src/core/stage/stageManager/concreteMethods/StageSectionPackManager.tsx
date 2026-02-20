@@ -342,7 +342,7 @@ export class SectionPackManager {
       collisionBox: collisionBox,
       children: [],
       isCollapsed: false,
-      isHidden: false,
+      locked: false,
     });
 
     // 创建左上角和右下角的质点

@@ -52,6 +52,12 @@ export class EntityMoveManager {
    * @param delta
    */
   jumpMoveEntityUtils(entity: Entity, delta: Vector) {
+    // 检查实体是否在锁定的 section 内
+    const fatherSections = this.project.sectionMethods.getFatherSections(entity);
+    if (fatherSections.some((section) => section.locked)) {
+      return;
+    }
+
     const beforeMoveRect = entity.collisionBox.getRectangle().clone();
 
     // 将自己移动前加特效
@@ -59,6 +65,11 @@ export class EntityMoveManager {
 
     // 即将跳入的sections区域
     const targetSections = this.project.sectionMethods.getSectionsByInnerLocation(beforeMoveRect.center.add(delta));
+
+    // 检查目标 sections 是否有锁定的
+    if (targetSections.some((section) => section.locked)) {
+      return;
+    }
     // 改变层级
     if (targetSections.length === 0) {
       // 代表想要走出当前section

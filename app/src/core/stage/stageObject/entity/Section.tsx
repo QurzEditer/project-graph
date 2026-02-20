@@ -42,6 +42,9 @@ export class Section extends ConnectableEntity {
   public get collisionBox(): CollisionBox {
     if (this.isCollapsed) {
       return this._collisionBoxWhenCollapsed;
+    } else if (this.locked) {
+      // 锁定状态下使用整个矩形作为碰撞箱
+      return new CollisionBox([this.rectangle]);
     } else {
       return this._collisionBoxNormal;
     }
@@ -70,9 +73,12 @@ export class Section extends ConnectableEntity {
   /** 是否是折叠状态 */
   @serializable
   isCollapsed: boolean;
-  /** 是否是隐藏状态 */
+  /**
+   * 是否锁定 Section 内部物体
+   * 当 locked 为 true 时，Section 内部的所有物体都不能移动或删除
+   */
   @serializable
-  isHidden: boolean;
+  locked: boolean = false;
   isHiddenBySectionCollapse = false;
 
   constructor(
@@ -82,7 +88,7 @@ export class Section extends ConnectableEntity {
       text = "",
       collisionBox = new CollisionBox([new Rectangle(new Vector(0, 0), new Vector(0, 0))]),
       color = Color.Transparent,
-      isHidden = false,
+      locked = false,
       isCollapsed = false,
       children = [] as Entity[],
       details = [] as Value,
@@ -103,7 +109,7 @@ export class Section extends ConnectableEntity {
 
     this.color = color;
     this.text = text;
-    this.isHidden = isHidden;
+    this.locked = locked;
     this.isCollapsed = isCollapsed;
     this.details = details;
     this.children = children;

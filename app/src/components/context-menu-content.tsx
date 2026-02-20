@@ -41,6 +41,7 @@ import {
   Copy,
   Dot,
   ExternalLink,
+  Lock,
   ListEnd,
   Grip,
   LayoutDashboard,
@@ -716,6 +717,18 @@ export default function MyContextMenuContent() {
           <Item onClick={() => p.stageManager.sectionSwitchCollapse()}>
             <Package />
             {t("toggleSectionCollapse")}
+          </Item>
+          <Item
+            onClick={() => {
+              const selectedSections = p.stageManager.getSelectedEntities().filter((it) => it instanceof Section);
+              for (const section of selectedSections) {
+                section.locked = !section.locked;
+                p.sectionRenderer.render(section);
+              }
+            }}
+          >
+            <Lock />
+            锁定/解锁 section 框
           </Item>
         </>
       )}

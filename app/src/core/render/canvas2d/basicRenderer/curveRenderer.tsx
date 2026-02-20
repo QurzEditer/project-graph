@@ -65,7 +65,10 @@ export class CurveRenderer {
       this.project.canvas.ctx.moveTo(midX, midY);
     }
     // 处理最后一个点
-    const last = stroke[stroke.length - 1].location;
+    const lastIndex = stroke.length - 1;
+    const last = stroke[lastIndex].location;
+    // 使用最后一个线段的pressure值设置lineWidth
+    this.project.canvas.ctx.lineWidth = stroke[lastIndex - 1].pressure * 5 * this.project.camera.currentScale;
     this.project.canvas.ctx.lineTo(last.x, last.y);
     this.project.canvas.ctx.stroke();
   }

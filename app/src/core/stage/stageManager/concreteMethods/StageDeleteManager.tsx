@@ -2,6 +2,7 @@ import { Project, service } from "@/core/Project";
 import { ExplodeDashEffect } from "@/core/service/feedbackService/effectEngine/concrete/ExplodeDashEffect";
 import { Association } from "@/core/stage/stageObject/abstract/Association";
 import { Entity } from "@/core/stage/stageObject/abstract/StageEntity";
+import { StageObject } from "@/core/stage/stageObject/abstract/StageObject";
 import { Edge } from "@/core/stage/stageObject/association/Edge";
 import { MultiTargetUndirectedEdge } from "@/core/stage/stageObject/association/MutiTargetUndirectedEdge";
 import { ConnectPoint } from "@/core/stage/stageObject/entity/ConnectPoint";
@@ -15,7 +16,7 @@ import { Color, ProgressNumber } from "@graphif/data-structures";
 import { ReferenceBlockNode } from "../../stageObject/entity/ReferenceBlockNode";
 import { ConnectableEntity } from "../../stageObject/abstract/ConnectableEntity";
 
-type DeleteHandler<T extends Entity> = (entity: T) => void;
+type DeleteHandler<T extends StageObject> = (object: T) => void;
 type Constructor<T> = { new (...args: any[]): T };
 
 /**
@@ -23,10 +24,10 @@ type Constructor<T> = { new (...args: any[]): T };
  */
 @service("deleteManager")
 export class DeleteManager {
-  private deleteHandlers = new Map<Constructor<Entity>, DeleteHandler<Entity>>();
+  private deleteHandlers = new Map<Constructor<StageObject>, DeleteHandler<StageObject>>();
   // 类型注册器，保证一个类型对应一个函数，绝对类型安全，同时可扩展
-  private registerHandler<T extends Entity>(constructor: Constructor<T>, handler: DeleteHandler<T>) {
-    this.deleteHandlers.set(constructor, handler as DeleteHandler<Entity>);
+  private registerHandler<T extends StageObject>(constructor: Constructor<T>, handler: DeleteHandler<T>) {
+    this.deleteHandlers.set(constructor, handler as DeleteHandler<StageObject>);
   }
 
   constructor(private readonly project: Project) {
@@ -49,11 +50,11 @@ export class DeleteManager {
     this.project.stageManager.updateReferences();
   }
 
-  private findDeleteHandler(entity: Entity) {
+  private findDeleteHandler(object: StageObject) {
     for (const [ctor, handler] of this.deleteHandlers) {
-      if (entity instanceof ctor) return handler;
+      if (object instanceof ctor) return handler;
     }
-    console.warn(`No delete handler for ${entity.constructor.name}`);
+    console.warn(`No delete handler for ${object.constructor.name}`);
   }
 
   private deleteSvgNode(entity: SvgNode) {

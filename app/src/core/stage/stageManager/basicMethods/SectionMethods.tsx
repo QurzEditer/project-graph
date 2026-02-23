@@ -2,6 +2,9 @@ import { Vector } from "@graphif/data-structures";
 import { Project, service } from "@/core/Project";
 import { Entity } from "@/core/stage/stageObject/abstract/StageEntity";
 import { Section } from "@/core/stage/stageObject/entity/Section";
+import { Edge } from "@/core/stage/stageObject/association/Edge";
+import { MultiTargetUndirectedEdge } from "@/core/stage/stageObject/association/MutiTargetUndirectedEdge";
+import { StageObject } from "@/core/stage/stageObject/abstract/StageObject";
 
 @service("sectionMethods")
 export class SectionMethods {
@@ -20,6 +23,41 @@ export class SectionMethods {
       }
     }
     return result;
+  }
+
+  /**
+   * 检查舞台对象是否在锁定的Section内
+   * 对于实体：检查它的所有父Section是否有锁定的
+   * 对于连线：检查它连接的所有实体是否在锁定的Section内
+   * @param object 舞台对象（实体或连线）
+   * @returns 如果对象连接了锁定的Section内物体，返回true
+   */
+  isObjectBeLockedBySection(object: StageObject): boolean {
+    if (object instanceof Entity) {
+      // 对于实体，检查它的所有父Section是否有锁定的
+      const fatherSections = this.getFatherSections(object);
+      // 同时检查实体本身是否是锁定的Section
+      const isEntityLocked = object instanceof Section && object.locked;
+      return isEntityLocked || fatherSections.some((section) => section.locked);
+    } else if (object instanceof Edge) {
+      // 对于有向边，检查source和target是否在锁定的Section内
+      const sourceFatherSections = this.getFatherSections(object.source);
+      const targetFatherSections = this.getFatherSections(object.target);
+      return (
+        sourceFatherSections.some((section) => section.locked) || targetFatherSections.some((section) => section.locked)
+      );
+    } else if (object instanceof MultiTargetUndirectedEdge) {
+      // 对于无向边，检查所有关联实体是否在锁定的Section内
+      for (const entity of object.associationList) {
+        const fatherSections = this.getFatherSections(entity);
+        if (fatherSections.some((section) => section.locked)) {
+          return true;
+        }
+      }
+      return false;
+    }
+    // 其他类型的舞台对象（如未知类型）默认返回false
+    return false;
   }
 
   /**

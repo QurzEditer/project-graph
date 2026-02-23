@@ -185,6 +185,10 @@ export class DeleteManager {
   deleteEdge(deleteEdge: Edge): boolean {
     const fromNode = deleteEdge.source;
     const toNode = deleteEdge.target;
+    // 检查边的源和目标是否在锁定的 section 内
+    if (this.project.sectionMethods.isObjectBeLockedBySection(deleteEdge)) {
+      return false; // 连接了锁定 section 内物体的连线不允许删除
+    }
     // 先判断这两个节点是否在nodes里
     if (
       this.project.stageManager.isEntityExists(fromNode.uuid) &&
@@ -200,6 +204,10 @@ export class DeleteManager {
   }
 
   deleteMultiTargetUndirectedEdge(edge: MultiTargetUndirectedEdge) {
+    // 检查无向边是否连接了锁定的 section 内的物体
+    if (this.project.sectionMethods.isObjectBeLockedBySection(edge)) {
+      return false; // 连接了锁定 section 内物体的无向边不允许删除
+    }
     this.project.stageManager.delete(edge);
     this.project.stageManager.updateReferences();
     return true;

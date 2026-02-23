@@ -279,15 +279,9 @@ export class ControllerCuttingClass extends ControllerClass {
         continue; // 隐藏的节点不参与碰撞检测
       }
 
-      // 检查实体是否在锁定的 section 内
-      const fatherSections = this.project.sectionMethods.getFatherSections(entity);
-      if (fatherSections.some((section) => section.locked)) {
+      // 检查实体是否在锁定的 section 内或本身是锁定的 section
+      if (this.project.sectionMethods.isObjectBeLockedBySection(entity)) {
         continue; // 锁定的 section 内的节点不参与碰撞检测
-      }
-
-      // 检查实体本身是否是锁定的 section
-      if (entity instanceof Section && entity.locked) {
-        continue; // 锁定的 section 本身不参与碰撞检测
       }
       if (entity.collisionBox.isIntersectsWithLine(this.cuttingLine)) {
         this.warningEntity.push(entity);
@@ -322,6 +316,12 @@ export class ControllerCuttingClass extends ControllerClass {
       if (edge instanceof Edge && edge.isHiddenBySectionCollapse) {
         continue; // 连线被隐藏了
       }
+
+      // 检查连线是否连接了锁定的 section 内的物体
+      if (this.project.sectionMethods.isObjectBeLockedBySection(edge)) {
+        continue; // 连接了锁定 section 内物体的连线不参与碰撞检测
+      }
+
       if (edge.collisionBox.isIntersectsWithLine(this.cuttingLine)) {
         this.warningAssociations.push(edge);
       }

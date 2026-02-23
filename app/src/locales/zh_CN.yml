@@ -1178,6 +1178,9 @@ keyBinds:
   folderSection:
     title: 折叠或展开Section框
     description: 按下后选中的Section框会切换折叠或展开状态
+  toggleSectionLock:
+    title: 锁定/解锁Section框
+    description: 切换选中Section框的锁定状态，锁定后内部物体不可移动
   reverseEdges:
     title: 反转连线的方向
     description: |

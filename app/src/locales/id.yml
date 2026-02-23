@@ -1177,6 +1177,9 @@ keyBinds:
   folderSection:
     title: Lipat atau Buka Kotak Section
     description: Setelah ditekan, kotak Section yang dipilih akan beralih status lipat atau buka
+  toggleSectionLock:
+    title: Kunci/Buka Kunci Kotak Section
+    description: Alihkan status kunci kotak section yang dipilih. Section terkunci mencegah pergerakan objek internal.
   reverseEdges:
     title: Balikkan Arah Garis
     description: |

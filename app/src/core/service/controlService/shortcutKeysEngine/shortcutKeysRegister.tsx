@@ -11,6 +11,7 @@ import { PenStrokeMethods } from "@/core/stage/stageManager/basicMethods/PenStro
 import { ConnectableEntity } from "@/core/stage/stageObject/abstract/ConnectableEntity";
 import { MultiTargetUndirectedEdge } from "@/core/stage/stageObject/association/MutiTargetUndirectedEdge";
 import { ImageNode } from "@/core/stage/stageObject/entity/ImageNode";
+import { Section } from "@/core/stage/stageObject/entity/Section";
 import { TextNode } from "@/core/stage/stageObject/entity/TextNode";
 import { activeProjectAtom, isWindowMaxsizedAtom, projectsAtom, store } from "@/state";
 import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -237,6 +238,19 @@ export const allKeyBinds: KeyBindItem[] = [
         project!.sectionPackManager.packSelectedEntitiesToSection();
       }
     },
+  },
+  {
+    id: "toggleSectionLock",
+    defaultKey: "C-l",
+    onPress: (project) => {
+      if (!project!.keyboardOnlyEngine.isOpenning()) return;
+      const selectedSections = project!.stageManager.getSelectedEntities().filter((it) => it instanceof Section);
+      for (const section of selectedSections) {
+        section.locked = !section.locked;
+        project!.sectionRenderer.render(section);
+      }
+    },
+    defaultEnabled: false,
   },
 
   /*------- 边反向 -------*/

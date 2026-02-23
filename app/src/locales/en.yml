@@ -1137,6 +1137,9 @@ keyBinds:
     title: Fold/Unfold Section Box
     description: Pressing this will toggle the fold/unfold state of the selected
       Section box
+  toggleSectionLock:
+    title: Lock/Unlock Section Box
+    description: Toggle lock state of selected section boxes. Locked sections prevent moving internal objects.
   reverseEdges:
     title: Reverse Connection Direction
     description: |

@@ -3,6 +3,7 @@ import { RectangleNoteEffect } from "@/core/service/feedbackService/effectEngine
 import { RectangleRenderEffect } from "@/core/service/feedbackService/effectEngine/concrete/RectangleRenderEffect";
 import { Settings } from "@/core/service/Settings";
 import { Entity } from "@/core/stage/stageObject/abstract/StageEntity";
+import { Section } from "@/core/stage/stageObject/entity/Section";
 import { isMac } from "@/utils/platform";
 import { Vector } from "@graphif/data-structures";
 import { Rectangle } from "@graphif/shapes";
@@ -39,9 +40,19 @@ export class ControllerEntityClickSelectAndMoveClass extends ControllerClass {
 
     // 检查点击的物体是否在锁定的 section 内
     if (clickedStageObject && clickedStageObject instanceof Entity) {
-      const fatherSections = this.project.sectionMethods.getFatherSections(clickedStageObject);
-      if (fatherSections.some((section) => section.locked)) {
-        return;
+      if (clickedStageObject instanceof Section) {
+        // 对于section实体：如果本身被锁定，允许选中（为了移动）；如果未被锁定但有锁定的祖先section，阻止选中
+        if (!clickedStageObject.locked) {
+          const ancestorSections = this.project.sectionMethods.getFatherSectionsList(clickedStageObject);
+          if (ancestorSections.some((section) => section.locked)) {
+            return;
+          }
+        }
+      } else {
+        // 对于其他实体：如果有锁定的祖先section，阻止选中
+        if (this.project.sectionMethods.isObjectBeLockedBySection(clickedStageObject)) {
+          return;
+        }
       }
     }
 

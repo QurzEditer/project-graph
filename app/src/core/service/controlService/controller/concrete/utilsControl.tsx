@@ -236,6 +236,11 @@ export class ControllerUtils {
   }
 
   editSectionTitle(section: Section) {
+    // 检查section是否被锁定（包括祖先section的锁定状态）
+    if (this.project.sectionMethods.isObjectBeLockedBySection(section)) {
+      toast.error("无法编辑已锁定的section");
+      return;
+    }
     this.project.controller.isCameraLocked = true;
     // 编辑节点
     section.isEditingTitle = true;

@@ -725,6 +725,8 @@ export default function MyContextMenuContent() {
                 section.locked = !section.locked;
                 p.sectionRenderer.render(section);
               }
+              // 记录历史步骤
+              p.historyManager.recordStep();
             }}
           >
             <Lock />

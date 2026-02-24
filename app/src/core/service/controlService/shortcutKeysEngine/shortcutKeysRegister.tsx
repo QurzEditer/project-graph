@@ -249,6 +249,8 @@ export const allKeyBinds: KeyBindItem[] = [
         section.locked = !section.locked;
         project!.sectionRenderer.render(section);
       }
+      // 记录历史步骤
+      project!.historyManager.recordStep();
     },
     defaultEnabled: false,
   },

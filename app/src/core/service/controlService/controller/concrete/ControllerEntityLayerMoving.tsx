@@ -87,19 +87,32 @@ export class ControllerLayerMovingClass extends ControllerClass {
     const targetSections = this.project.sectionMethods.getSectionsByInnerLocation(mouseLocation);
     const selectedEntities = this.project.stageManager.getSelectedEntities();
 
-    // 检查目标 sections 是否有锁定的
-    const hasLockedTargetSection = targetSections.some((section) => section.locked);
+    // 检查目标位置是否在锁定的 section 内（包括祖先section的锁定状态）
+    const hasLockedTargetSection = targetSections.some((section) =>
+      this.project.sectionMethods.isObjectBeLockedBySection(section),
+    );
     if (hasLockedTargetSection) {
       toast.error("不能跳入已锁定的 Section");
       return;
     }
 
-    // 检查选中的实体是否在锁定的 section 内
+    // 检查选中的实体是否在锁定的 section 内（包括祖先section的锁定状态）
     for (const selectedEntity of selectedEntities) {
-      const fatherSections = this.project.sectionMethods.getFatherSections(selectedEntity);
-      if (fatherSections.some((section) => section.locked)) {
-        toast.error("不能移动已锁定的 Section 中的物体");
-        return;
+      if (selectedEntity instanceof Section) {
+        // 对于section实体：如果本身被锁定，允许移动；如果未被锁定但有锁定的祖先section，阻止移动
+        if (!selectedEntity.locked) {
+          const ancestorSections = this.project.sectionMethods.getFatherSectionsList(selectedEntity);
+          if (ancestorSections.some((section) => section.locked)) {
+            toast.error("不能移动已锁定的 Section 中的物体");
+            return;
+          }
+        }
+      } else {
+        // 对于其他实体：如果有锁定的祖先section，阻止移动
+        if (this.project.sectionMethods.isObjectBeLockedBySection(selectedEntity)) {
+          toast.error("不能移动已锁定的 Section 中的物体");
+          return;
+        }
       }
     }
 

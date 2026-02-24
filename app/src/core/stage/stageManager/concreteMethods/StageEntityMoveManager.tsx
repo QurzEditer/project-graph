@@ -4,6 +4,7 @@ import { RectanglePushInEffect } from "@/core/service/feedbackService/effectEngi
 import { SoundService } from "@/core/service/feedbackService/SoundService";
 import { ConnectableEntity } from "@/core/stage/stageObject/abstract/ConnectableEntity";
 import { Entity } from "@/core/stage/stageObject/abstract/StageEntity";
+import { Section } from "@/core/stage/stageObject/entity/Section";
 import { Vector } from "@graphif/data-structures";
 
 /**
@@ -54,9 +55,19 @@ export class EntityMoveManager {
    */
   jumpMoveEntityUtils(entity: Entity, delta: Vector) {
     // 检查实体是否在锁定的 section 内
-    const fatherSections = this.project.sectionMethods.getFatherSections(entity);
-    if (fatherSections.some((section) => section.locked)) {
-      return;
+    if (entity instanceof Section) {
+      // 对于section实体：如果本身被锁定，允许移动；如果未被锁定但有锁定的祖先section，阻止移动
+      if (!entity.locked) {
+        const ancestorSections = this.project.sectionMethods.getFatherSectionsList(entity);
+        if (ancestorSections.some((section) => section.locked)) {
+          return;
+        }
+      }
+    } else {
+      // 对于其他实体：如果有锁定的祖先section，阻止移动
+      if (this.project.sectionMethods.isObjectBeLockedBySection(entity)) {
+        return;
+      }
     }
 
     const beforeMoveRect = entity.collisionBox.getRectangle().clone();
@@ -67,8 +78,8 @@ export class EntityMoveManager {
     // 即将跳入的sections区域
     const targetSections = this.project.sectionMethods.getSectionsByInnerLocation(beforeMoveRect.center.add(delta));
 
-    // 检查目标 sections 是否有锁定的
-    if (targetSections.some((section) => section.locked)) {
+    // 检查目标位置是否在锁定的 section 内（包括祖先section的锁定状态）
+    if (targetSections.some((section) => this.project.sectionMethods.isObjectBeLockedBySection(section))) {
       return;
     }
     // 改变层级

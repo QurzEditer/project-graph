@@ -34,23 +34,26 @@ export class SectionMethods {
    */
   isObjectBeLockedBySection(object: StageObject): boolean {
     if (object instanceof Entity) {
-      // 对于实体，检查它的所有父Section是否有锁定的
-      const fatherSections = this.getFatherSections(object);
-      // 同时检查实体本身是否是锁定的Section
-      const isEntityLocked = object instanceof Section && object.locked;
-      return isEntityLocked || fatherSections.some((section) => section.locked);
+      // 检查实体本身是否是锁定的Section
+      if (object instanceof Section && object.locked) {
+        return true;
+      }
+      // 检查实体是否在任何锁定的祖先Section内
+      const ancestorSections = this.getFatherSectionsList(object);
+      return ancestorSections.some((section) => section.locked);
     } else if (object instanceof Edge) {
       // 对于有向边，检查source和target是否在锁定的Section内
-      const sourceFatherSections = this.getFatherSections(object.source);
-      const targetFatherSections = this.getFatherSections(object.target);
+      const sourceAncestorSections = this.getFatherSectionsList(object.source);
+      const targetAncestorSections = this.getFatherSectionsList(object.target);
       return (
-        sourceFatherSections.some((section) => section.locked) || targetFatherSections.some((section) => section.locked)
+        sourceAncestorSections.some((section) => section.locked) ||
+        targetAncestorSections.some((section) => section.locked)
       );
     } else if (object instanceof MultiTargetUndirectedEdge) {
       // 对于无向边，检查所有关联实体是否在锁定的Section内
       for (const entity of object.associationList) {
-        const fatherSections = this.getFatherSections(entity);
-        if (fatherSections.some((section) => section.locked)) {
+        const ancestorSections = this.getFatherSectionsList(entity);
+        if (ancestorSections.some((section) => section.locked)) {
           return true;
         }
       }
@@ -69,7 +72,7 @@ export class SectionMethods {
   getFatherSectionsList(entity: Entity): Section[] {
     const result = [];
     for (const section of this.project.stageManager.getSections()) {
-      if (this.isEntityInSection_fake(entity, section)) {
+      if (this.isEntityInSection(entity, section)) {
         result.push(section);
       }
     }
@@ -213,7 +216,9 @@ export class SectionMethods {
       // 涉及跨级检测
       for (const child of section.children) {
         if (child instanceof Section) {
-          return this._isEntityInSection(entity, child, deep + 1);
+          if (this._isEntityInSection(entity, child, deep + 1)) {
+            return true;
+          }
         }
       }
       return false;

@@ -1,5 +1,5 @@
 import { Dialog } from "@/components/ui/dialog";
-import { Project, service } from "@/core/Project";
+import { Project, ProjectState, service } from "@/core/Project";
 import { MouseLocation } from "@/core/service/controlService/MouseLocation";
 import { RectangleSlideEffect } from "@/core/service/feedbackService/effectEngine/concrete/RectangleSlideEffect";
 import { ViewFlashEffect } from "@/core/service/feedbackService/effectEngine/concrete/ViewFlashEffect";
@@ -690,6 +690,47 @@ export const allKeyBinds: KeyBindItem[] = [
       };
       const nextActiveProjectIndex = mod(activeProjectIndex - 1, projects.length);
       store.set(activeProjectAtom, projects[nextActiveProjectIndex]);
+    },
+    isUI: true,
+  },
+  {
+    id: "closeCurrentProjectTab",
+    defaultKey: "A-S-q",
+    defaultEnabled: false,
+    onPress: async () => {
+      const project = store.get(activeProjectAtom);
+      if (!project) {
+        toast.error("当前没有打开的项目标签页");
+        return;
+      }
+      const projects = store.get(projectsAtom);
+      if (project.state === ProjectState.Stashed) {
+        toast("文件还没有保存，但已经暂存，在“最近打开的文件”中可恢复文件");
+      } else if (project.state === ProjectState.Unsaved) {
+        const response = await Dialog.buttons("是否保存更改？", decodeURI(project.uri.toString()), [
+          { id: "cancel", label: "取消", variant: "ghost" },
+          { id: "discard", label: "不保存", variant: "destructive" },
+          { id: "save", label: "保存" },
+        ]);
+        if (response === "save") {
+          await project.save();
+        } else if (response === "cancel") {
+          return;
+        }
+      }
+      await project.dispose();
+      const result = projects.filter((p) => p.uri.toString() !== project.uri.toString());
+      const activeProjectIndex = projects.findIndex((p) => p.uri.toString() === project.uri.toString());
+      if (result.length > 0) {
+        if (activeProjectIndex === projects.length - 1) {
+          store.set(activeProjectAtom, result[activeProjectIndex - 1]);
+        } else {
+          store.set(activeProjectAtom, result[activeProjectIndex]);
+        }
+      } else {
+        store.set(activeProjectAtom, undefined);
+      }
+      store.set(projectsAtom, result);
     },
     isUI: true,
   },

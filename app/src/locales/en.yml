@@ -1404,6 +1404,9 @@ keyBinds:
   reverseImageColors:
     title: Reverse Image Colors
     description: Reverse the colors of selected images (makes white background black and vice versa)
+  closeCurrentProjectTab:
+    title: Close Current Project Tab
+    description: Close the currently active project tab. If there are unsaved changes, you will be prompted to save. Disabled by default; can be enabled in settings.
   closeAllSubWindows:
     title: Close All Sub-Windows
     description: Closes all currently open sub-windows (e.g., Settings, AI, Color panels) and restores focus to the main stage.

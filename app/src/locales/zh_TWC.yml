@@ -1636,6 +1636,9 @@ keyBinds:
   switchActiveProjectReversed:
     title: 切換目前專案（反序）
     description: 按下後，切換到上一個專案
+  closeCurrentProjectTab:
+    title: 關閉目前專案標籤頁
+    description: 關閉目前啟用的專案標籤頁。若有未儲存變更會提示儲存。預設關閉，可在設定中啟用。
   closeAllSubWindows:
     title: 關閉所有子窗口
     description: 關閉當前所有打開的子窗口（如設置、AI、顏色面板等），並將焦點恢復至主畫布。

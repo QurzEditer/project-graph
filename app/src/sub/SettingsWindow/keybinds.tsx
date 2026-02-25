@@ -571,6 +571,7 @@ export const shortcutKeysGroups: ShortcutKeysGroup[] = [
       "clickStartFilePanelButton",
       "switchActiveProject",
       "switchActiveProjectReversed",
+      "closeCurrentProjectTab",
       "switchStealthMode",
       "closeAllSubWindows",
       "toggleFullscreen",

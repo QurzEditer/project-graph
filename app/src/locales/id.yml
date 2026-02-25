@@ -1677,6 +1677,9 @@ keyBinds:
   switchActiveProjectReversed:
     title: Alihkan Proyek Saat Ini (Urutan Terbalik)
     description: Setelah ditekan, beralih ke proyek sebelumnya
+  closeCurrentProjectTab:
+    title: Tutup Tab Proyek Saat Ini
+    description: Tutup tab proyek yang sedang aktif. Jika ada perubahan yang belum disimpan, Anda akan diminta untuk menyimpan. Dinonaktifkan secara default; dapat diaktifkan di pengaturan.
   closeAllSubWindows:
     title: Tutup Semua Jendela Anak
     description: Tutup semua jendela anak yang terbuka saat ini (seperti pengaturan, AI, panel warna, dll.), dan kembalikan fokus ke kanvas utama.

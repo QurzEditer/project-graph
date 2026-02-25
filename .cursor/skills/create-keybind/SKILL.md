@@ -152,6 +152,7 @@ export const shortcutKeysGroups: ShortcutKeysGroup[] = [
 - `app/src/locales/zh_TW.yml` - 繁体中文
 - `app/src/locales/en.yml` - 英文
 - `app/src/locales/zh_TWC.yml` - 繁体中文（台湾）
+- `app/src/locales/id.yml` - 印度尼西亚语
 
 **翻译结构：**
 
@@ -183,6 +184,7 @@ keyBinds:
 - 繁体中文：`app/src/locales/zh_TW.yml`
 - 繁体中文（台湾）：`app/src/locales/zh_TWC.yml`
 - 英文：`app/src/locales/en.yml`
+- 印度尼西亚语：`app/src/locales/id.yml`
 
 **注意：**
 

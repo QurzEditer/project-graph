@@ -288,6 +288,16 @@ export class SectionRenderer {
         section.collisionBox,
         this.project.stageStyleManager.currentStyle.CollideBoxSelected,
       );
+      // 锁定且选中时：在碰撞箱矩形右上角画半透明绿色三角形（右上角点、右边上四分之一点、上边右四分之一点）
+      if (section.locked) {
+        const rect = section.collisionBox.getRectangle();
+        const p1 = rect.rightTop; // 最右上角
+        const p2 = new Vector(rect.right, rect.top + rect.size.y / 4); // 右边上四分之一
+        const p3 = new Vector(rect.right - rect.size.x / 4, rect.top); // 上边右四分之一
+        const pointsView = [p1, p2, p3].map((p) => this.project.renderer.transformWorld2View(p));
+        const fillColor = this.project.stageStyleManager.currentStyle.CollideBoxSelected.toNewAlpha(0.35);
+        this.project.shapeRenderer.renderPolygonAndFill(pointsView, fillColor, fillColor, 0, "round");
+      }
     }
     // debug: 绿色虚线 观察父子关系
     if (Settings.showDebug) {
